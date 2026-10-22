@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meeting Recorder</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Meeting Recorder</h1>
+    </header>
+
+    <section class="panel recorder" aria-labelledby="recorder-heading">
+      <h2 id="recorder-heading" class="visually-hidden">Recorder</h2>
+
+      <div class="fields">
+        <label>
+          <span>Title</span>
+          <input id="title" type="text" placeholder="e.g. Weekly supervisor meeting" maxlength="200">
+        </label>
+        <label>
+          <span>Microphone</span>
+          <select id="device"></select>
+        </label>
+      </div>
+
+      <div class="readout">
+        <span id="state-pill" class="pill" data-state="idle"><span class="dot"></span><span id="state-label">Ready</span></span>
+        <time id="timer" class="timer">00:00:00</time>
+        <div class="meter" aria-hidden="true"><div id="meter-fill"></div></div>
+      </div>
+
+      <div class="controls">
+        <button id="btn-start" class="btn primary">Start recording</button>
+        <button id="btn-pause" class="btn" disabled>Pause</button>
+        <button id="btn-stop" class="btn" disabled>Stop &amp; save</button>
+      </div>
+
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <section class="panel library" aria-labelledby="library-heading">
+      <div class="library-head">
+        <h2 id="library-heading">Recordings <span id="count" class="muted"></span></h2>
+        <input id="search" type="search" placeholder="Search titles, notes and transcripts">
+      </div>
+      <ul id="recordings" class="recordings"></ul>
+      <p id="empty" class="muted empty" hidden>No recordings yet. Press <strong>Start recording</strong> to capture your first meeting.</p>
+      <p id="no-results" class="muted empty" hidden>No recordings match your search.</p>
+    </section>
+  </main>
+
+  <template id="recording-tpl">
+    <li class="recording">
+      <div class="rec-main">
+        <input class="rec-title" type="text" aria-label="Recording title" maxlength="200">
+        <div class="rec-meta muted"></div>
+        <div class="rec-transcript-status muted" hidden></div>
+      </div>
+      <div class="rec-actions">
+        <button class="btn small act-play">Play</button>
+        <button class="btn small act-reveal">Show in folder</button>
+        <button class="btn small danger act-delete">Delete</button>
+      </div>
+      <audio class="rec-audio" controls preload="none" hidden></audio>
+      <details class="rec-transcript" hidden>
+        <summary>Transcript</summary>
+        <div class="transcript-tools">
+          <span class="transcript-info muted"></span>
+          <button class="btn small act-copy" type="button">Copy</button>
+          <button class="btn small act-retranscribe" type="button">Re-transcribe</button>
+        </div>
+        <ol class="segments"></ol>
+      </details>
+      <details class="rec-notes">
+        <summary>Notes</summary>
+        <textarea rows="3" placeholder="Attendees, agenda, action items…"></textarea>
+      </details>
+    </li>
+  </template>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

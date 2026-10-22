@@ -1,0 +1,8 @@
+flask>=3.0
+sounddevice>=0.5
+soundfile>=0.12
+numpy>=1.26
+pystray>=0.19
+pillow>=10.0
+pywebview>=5.0
+faster-whisper>=1.1
